@@ -1,0 +1,17 @@
+.DS_Store
+
+.venv
+.env*
+.vscode
+
+celerybeat-schedule
+celerybeat.pid
+
+__pycache__
+/volumes
+/config
+/logs
+/postgres
+
+*.json
+.pytest_cache

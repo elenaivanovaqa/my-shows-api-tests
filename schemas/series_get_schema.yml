@@ -1,0 +1,33 @@
+type: array
+uniqueItems: false
+items:
+  type: object
+  additionalProperties: false
+  properties:
+    id:
+      type: integer
+    name:
+      type: string
+    photo:
+      oneOf:
+        - type: string
+        - type: 'null'
+    rating:
+      oneOf:
+        - type: integer
+        - type: 'null'
+    status:
+      oneOf:
+        - type: string
+        - type: 'null'
+    review:
+      oneOf:
+        - type: string
+        - type: 'null'
+  required:
+    - id
+    - name
+    - photo
+    - rating
+    - status
+    - review

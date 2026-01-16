@@ -1,0 +1,6 @@
+jsonschema
+requests
+psycopg2
+pytest
+pytest-dotenv
+pyyaml
