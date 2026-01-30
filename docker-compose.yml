@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  msr-db:
+    container_name: msr-db
+    image: postgres:13
+    environment:
+      POSTGRES_DB: my-shows-rating
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123456"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d my-shows-rating"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - test-network
+
+  msr-backend:
+    container_name: msr-backend
+    image: registry.qa.studio/manual-qa/my-shows-rating-backend:latest
+    environment:
+      POSTGRES_DB: my-shows-rating
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_HOST: msr-db
+      POSTGRES_PORT: "5432"
+      PORT: "8000"
+      HOST: "0.0.0.0"
+    ports:
+      - "8000:8000"
+    depends_on:
+      msr-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/series"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - test-network
+
+  api-tests:
+    container_name: api-tests
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      msr-backend:
+        condition: service_healthy
+    environment:
+      MY_SHOWS_HOST: http://msr-backend:8000/api/v1
+      MY_SHOWS_POSTGRES_DB: my-shows-rating
+      MY_SHOWS_POSTGRES_USER: postgres
+      MY_SHOWS_POSTGRES_PASSWORD: "123456"
+      MY_SHOWS_POSTGRES_HOST: msr-db
+      MY_SHOWS_POSTGRES_PORT: "5432"
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge
