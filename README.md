@@ -4,6 +4,15 @@
 ### Описание проекта и задачи
 Автоматизировать часть проверок регресса с помощью Pytest и Requests
 
+#### Используемый стек:
+| Python | PyCharm | Git | Pytest | Requests | Docker |
+|--------|---------|-----|--------|----------|--------|
+| <img height="50" src="media/python.png" width="50"/>  | <img height="50" src="media/pycharm.png" width="50"/>  |<img height="60" src="media/git.png" width="60"/>|<img height="55" src="media/pytest.png" width="55"/> | <img height="50" src="media/requests.png" width="50"/> | <img height="80" src="media/docker.png" width="80"/> |
+
+Тесты написаны на языке `Python` с использованием фреймворка `Pytest`.
+Приложение My Shows Rating разворачивается только в `Docker`, поэтому для одновременного развертывания приложения и запуска тестов реализован `Docker Compose`, где часть yml-файла для запуска приложения написана разработчиками приложения, а часть для запуска тестов (сервис `api-tests`) и сборка всего в единый файл написана мной.
+
+
 #### Тест-кейсы, которые автоматизировали
 * получение списка своих сериалов `GET /series`
 * изменение данных конкретного сериала `PUT /api/v1/series/{id}`
